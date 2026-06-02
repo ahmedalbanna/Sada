@@ -1,0 +1,6 @@
+{
+  "name": "صدى",
+  "description": "تطبيق صدى الصوتي الذكي لتحويل كلامك إلى ملاحظات منظمة واستخراج المهام وتلخيصها ومزامنتها سحابياً ومحلياً مع دعم كامل للعربية واللهجات المحلية",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

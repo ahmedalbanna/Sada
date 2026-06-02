@@ -1,0 +1,60 @@
+package com.example
+
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
+import com.example.data.SadaRepository
+import com.example.ui.theme.MyApplicationTheme
+import com.example.ui.SadaMainView
+import com.example.ui.SadaViewModel
+import com.example.ui.SadaViewModelFactory
+
+class MainActivity : ComponentActivity() {
+
+    private val viewModel: SadaViewModel by viewModels {
+        val app = application as SadaApplication
+        SadaViewModelFactory(SadaRepository(app.database.sadaDao()))
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Toast.makeText(this, "تم تفعيل صلاحيات الميكروفون! يمكنك التحدث الآن 🎙️", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "لم يتم تفعيل صلاحيات الميكروفون بالكامل. يمكنك مع ذلك استخدام الأكواد المسجلة الجاهزة المضمنة للتجربة والتقييم بصوت مسموع! ❤️", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        // Proactively request microphone permission at startup
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+
+        setContent {
+            MyApplicationTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    SadaMainView(viewModel = viewModel)
+                }
+            }
+        }
+    }
+}

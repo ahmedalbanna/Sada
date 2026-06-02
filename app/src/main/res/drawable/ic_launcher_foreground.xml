@@ -1,0 +1,58 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer Glow ring -->
+    <path
+        android:pathData="M54,14 A40,40 0 1,1 53.99,14"
+        android:strokeWidth="1.5"
+        android:strokeColor="#1AFFFFFF"
+        android:strokeLineCap="round" />
+
+    <!-- Expansive sound waves -->
+    <path
+        android:pathData="M24,54 A30,30 0 0,1 54,24"
+        android:strokeWidth="3"
+        android:strokeColor="#3300E5FF"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M54,84 A30,30 0 0,1 84,54"
+        android:strokeWidth="3"
+        android:strokeColor="#3300E5FF"
+        android:strokeLineCap="round" />
+
+    <!-- Core Microphone capsule -->
+    <path
+        android:pathData="M48,34 h12 a6,6 0 0,1 6,6 v16 a6,6 0 0,1 -6,6 h-12 a6,6 0 0,1 -6,-6 v-16 a6,6 0 0,1 6,-6 z"
+        android:fillColor="#00E5FF" />
+        
+    <!-- Supporting U-shaped rod -->
+    <path
+        android:pathData="M38,48 v4 a16,16 0 0,0 32,0 v-4"
+        android:strokeWidth="4"
+        android:strokeColor="#00E5FF"
+        android:strokeLineCap="round" />
+        
+    <!-- Vertical base stem -->
+    <path
+        android:pathData="M54,64 v12"
+        android:strokeWidth="4"
+        android:strokeColor="#00E5FF"
+        android:strokeLineCap="round" />
+        
+    <!-- Base plate horizontal -->
+    <path
+        android:pathData="M44,76 h20"
+        android:strokeWidth="4"
+        android:strokeColor="#00E5FF"
+        android:strokeLineCap="round" />
+        
+    <!-- Sparkles of smart analysis dots -->
+    <path
+        android:pathData="M78,34 h0.1 M82,42 h0.1 M28,34 h0.1 M24,42 h0.1"
+        android:strokeWidth="4"
+        android:strokeColor="#00E676"
+        android:strokeLineCap="round" />
+</vector>
