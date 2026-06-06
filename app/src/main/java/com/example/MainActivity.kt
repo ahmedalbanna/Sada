@@ -1,24 +1,29 @@
 package com.example
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.unit.dp
 import com.example.data.SadaRepository
-import com.example.ui.theme.MyApplicationTheme
+import com.example.ui.theme.SadaTheme
 import com.example.ui.SadaMainView
 import com.example.ui.SadaViewModel
 import com.example.ui.SadaViewModelFactory
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
 class MainActivity : ComponentActivity() {
 
@@ -27,32 +32,39 @@ class MainActivity : ComponentActivity() {
         SadaViewModelFactory(SadaRepository(app.database.sadaDao()))
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            Toast.makeText(this, "تم تفعيل صلاحيات الميكروفون! يمكنك التحدث الآن 🎙️", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "لم يتم تفعيل صلاحيات الميكروفون بالكامل. يمكنك مع ذلك استخدام الأكواد المسجلة الجاهزة المضمنة للتجربة والتقييم بصوت مسموع! ❤️", Toast.LENGTH_LONG).show()
-        }
-    }
-
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Proactively request microphone permission at startup
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-        }
-
         setContent {
-            MyApplicationTheme {
+            SadaTheme {
+                val micPermissionState = rememberPermissionState(
+                    permission = Manifest.permission.RECORD_AUDIO
+                )
+
+                LaunchedEffect(Unit) {
+                    if (!micPermissionState.status.isGranted) {
+                        micPermissionState.launchPermissionRequest()
+                    }
+                }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SadaMainView(viewModel = viewModel)
+                    if (micPermissionState.status.isGranted) {
+                        SadaMainView(viewModel = viewModel)
+                    } else {
+                        // Minimalist fallback design if permission is denied
+                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(32.dp)) {
+                            Text(
+                                "تطبيق صدى يحتاج لصلاحية الميكروفون ليعمل كأداة صوتية ذكية. يرجى تفعيل الصلاحية من الإعدادات.",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    }
                 }
             }
         }

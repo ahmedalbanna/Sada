@@ -15,6 +15,8 @@ class SadaRepository(private val dao: SadaDao) {
 
     suspend fun getVoiceNoteById(id: Long): VoiceNote? = dao.getVoiceNoteById(id)
 
+    fun getTasksForNote(noteId: Long): Flow<List<TaskItem>> = dao.getTasksForNote(noteId)
+
     fun searchNotes(query: String): Flow<List<VoiceNote>> {
         return dao.searchVoiceNotes("%$query%")
     }

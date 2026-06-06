@@ -9,12 +9,12 @@ import androidx.compose.ui.graphics.Color
 private val SadaDarkColorScheme = darkColorScheme(
     primary = RealNeonTeal,
     secondary = EmeraldGreen,
-    tertiary = DeepForestGlow,
+    tertiary = EmeraldGreen,
     background = DarkObsidianBg,
     surface = ObsidianSurface,
     onBackground = DimWhite,
     onSurface = DimWhite,
-    primaryContainer = DeepForestGlow,
+    primaryContainer = ObsidianSurface,
     onPrimaryContainer = RealNeonTeal,
     surfaceVariant = ObsidianSurfaceElevated,
     onSurfaceVariant = SoftCyberGray,
@@ -22,7 +22,7 @@ private val SadaDarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun MyApplicationTheme(
+fun SadaTheme(
     content: @Composable () -> Unit
 ) {
     // We override defaults to lock in the ultra-premium comfortable Dark Eye-Safe scheme (Emerald Obsidian)
